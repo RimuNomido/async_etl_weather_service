@@ -71,3 +71,8 @@ async def delete_weather_data(city_id, source_id):
         await session.commit()
         return result.rowcount > 0
     
+async def is_source_in_base(source: str, url: str):
+    db_source = await get_weather_source(source)
+    if db_source is None:
+        db_source = await add_weather_source(source, url)
+    return db_source
